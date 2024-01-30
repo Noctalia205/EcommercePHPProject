@@ -1,0 +1,8 @@
+.idea
+.DS_Store
+docker/mariadb/data/*
+docker/mariadb/logs/*
+docker/mariadb/conf/*
+!mariadb/data/.gitignore
+!mariadb/logs/.gitignore
+!mariadb/conf/.gitignore
