@@ -8,4 +8,8 @@ catch(Exception $e)
   die("Une érreur a été trouvé : " . $e->getMessage());
 }
 $bdd->query("SET NAMES UTF8");
+
+
+define('PROJECT_FOLDER', '/docker-php-projet-starter-master/');
+define('SITE_ROOT', $_SERVER['DOCUMENT_ROOT'] . PROJECT_FOLDER);
 ?>
