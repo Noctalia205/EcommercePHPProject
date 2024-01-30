@@ -1,26 +1,11 @@
-<?php 
-
-function initDB() {
-    
-    $db_host = 'mariadb';
-    $db_name = 'dbadmin';
-    $db_port = '3306';
-    $db_user = 'root';
-    $db_pass = 'root';
-
-    // data source name
-    $dsn = 'mysql:host=' . $db_host . ';dbname=' . $db_name . ';port=' . $db_port . '';
-
-
-    try {
-        $db = new PDO($dsn, $db_user, $db_pass);
-    }
-    catch (Exception $e) {
-        die('Erreur MySQL, maintenance en cours.' . $e->getMessage());
-    }
-
-    return $db;
+<?php try
+{
+ $bdd = new PDO("mysql:host=localhost;dbname=bdr", "root", "");
+ $bdd ->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
-
-// connexion a la db
-$pdo = initDB();
+catch(Exception $e)
+{
+  die("Une érreur a été trouvé : " . $e->getMessage());
+}
+$bdd->query("SET NAMES UTF8");
+?>

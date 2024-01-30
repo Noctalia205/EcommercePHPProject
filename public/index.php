@@ -3,12 +3,14 @@ require_once __DIR__ . '/../src/init.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bonjour</title>
     <?php require_once __DIR__ . '/../src/partials/head_css.php'; ?>
 </head>
+
 <body>
     <?php require_once __DIR__ . '/../src/partials/menu.php'; ?>
     <?php require_once __DIR__ . '/../src/partials/show_error.php'; ?>
@@ -23,6 +25,11 @@ require_once __DIR__ . '/../src/init.php';
             </div>
         </div>
     </div>
-    
+    <form action="verif-form.php" method="get">
+        <input type="search" name="terme">
+        <input type="submit" name="s" value="Rechercher">
+    </form>
+
 </body>
+
 </html>
