@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Jan 30, 2024 at 03:44 PM
+-- Generation Time: Jan 31, 2024 at 08:34 AM
 -- Server version: 5.7.39
 -- PHP Version: 8.2.0
 
@@ -51,7 +51,8 @@ CREATE TABLE `articles` (
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `price` int(11) NOT NULL,
-  `stock` int(11) NOT NULL
+  `stock` int(11) NOT NULL,
+  `photo_path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -126,7 +127,8 @@ ALTER TABLE `orders`
 --
 ALTER TABLE `reviews`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `author_id` (`author_id`);
+  ADD KEY `author_id` (`author_id`),
+  ADD KEY `reviews_ibfk_2` (`reviewed_article_id`);
 
 --
 -- Indexes for table `users`
@@ -182,11 +184,8 @@ ALTER TABLE `orders`
 -- Constraints for table `reviews`
 --
 ALTER TABLE `reviews`
-  ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`);
-COMMIT;
-
-ALTER TABLE `reviews`
-  ADD CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`reviewed_article_id`) REFERENCES `articles`(`id`);
+  ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`reviewed_article_id`) REFERENCES `articles` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
