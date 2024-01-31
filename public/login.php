@@ -11,7 +11,48 @@ require_once __DIR__ . '/../src/init.php';
 <body>
     <?php require_once __DIR__ . '/../src/partials/menu.php'; ?>
     <?php require_once __DIR__ . '/../src/partials/show_error.php'; ?>
+    <?php require_once DIR . '/../src/init.php';
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //////////////////
+    // LET ME CHECK//
+    ////////////////
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $rememberme = isset($_POST['rememberme']) ? $_POST['rememberme'] : '';
+    //////////////////
+    // DO WE KNOW U?//
+    /////////////////
+    $user = getUserByEmail($email);
+
+    if ($user && password_verify($password, $user['password'])) {
+        //////////////
+        //U CAN PASS//
+        /////////////
+        session_start();
+        $_SESSION['user_id'] = $user['id'];
+    ////////////////////////////////
+    // GO BACK TO UR loging page//
+    /////////////////////////////
+    header('Location: /');
+    exit;
+    } else {
+    //////////////////////////
+    //ARE U SURE ABOUT THAT//
+    ////////////////////////
+    $error = "Invalid email or password";
+    $_SESSION['error'] = $error;
+    header('Location: /login.php');
+    exit;
+    }
+    } else {
+    //////////////////////////////////////////
+    // IF NOT POST GO BACK TO UR loging page//
+    //////////////////////////////////////////
+    header('Location: /login.php');
+    exit;
+    }
+?>
 
     <form action="/actions/login.php" method="post">
         <div>
