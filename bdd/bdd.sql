@@ -80,7 +80,8 @@ CREATE TABLE `reviews` (
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `number_stars` int(5) NOT NULL,
-  `author_id` int(10) UNSIGNED NOT NULL
+  `author_id` int(10) UNSIGNED NOT NULL,
+  `reviewed_article_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -182,6 +183,10 @@ ALTER TABLE `orders`
 --
 ALTER TABLE `reviews`
   ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`);
+COMMIT;
+
+ALTER TABLE `reviews`
+  ADD CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`reviewed_article_id`) REFERENCES `articles`(`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
