@@ -1,17 +1,19 @@
-<?php 
+<?php
 require_once __DIR__ . '/../src/init.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 </head>
+
 <body>
     <?php require_once __DIR__ . '/../src/partials/menu.php'; ?>
     <?php require_once __DIR__ . '/../src/partials/show_error.php'; ?>
-    <?php require_once DIR . '/../src/init.php';
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //////////////////
@@ -54,7 +56,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
     }
 ?>
-
     <form action="/actions/login.php" method="post">
         <div>
             <label for="mail">Email:</label>
@@ -73,4 +74,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </form>
 </body>
+
 </html>
