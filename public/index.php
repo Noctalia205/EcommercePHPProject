@@ -1,13 +1,18 @@
 <?php
 require_once __DIR__ . '/../src/init.php';
-require_once __DIR__ . '/../src/db.php';
-//////////////////////////////
-// GET ALL PRODUCTS FROM DB //
-$pdoStatement = $bdd->prepare("SELECT * FROM articles;");
-$pdoStatement->execute();
-$allProducts = $pdoStatement->fetchAll();
 
-
+try {
+    //////////////////////////////
+    // GET ALL PRODUCTS FROM DB //
+    //////////////////////////////
+    $pdoStatement = $bdd->prepare("SELECT * FROM articles;");
+    $pdoStatement->execute();
+    $allProducts = $pdoStatement->fetchAll();
+    //var_dump($allProducts);
+} catch (PDOException $e) {
+    $errMessage = $e->getMessage();
+    echo $errMessage;
+}
 $num;
 ?>
 <!DOCTYPE html>
@@ -36,7 +41,7 @@ $num;
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
                     <?php
                     if ($user === false) { ?>
@@ -69,7 +74,7 @@ $num;
         ?>
                 <?php foreach ($requests as $request) : ?>
                     <div class="card" style="width: 18rem;">
-                        <a href="product_page.php"> <img src="<?= '../' . $infos['photo_path'] ?>" class="card-img-top" alt="..."> </a>
+                    <a href="product_page.php?id=<?php echo $request['id'] ?>"> <img src="<?= '../' . $infos['photo_path'] ?>" class="card-img-top" alt="..."> </a>
                         <div class="card-body">
                             <h5 class="card-title"> <?php echo $request['title'] ?></h5>
                             <h5 class="card-price"> <?php echo $request['price'] ?></h5>
