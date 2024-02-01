@@ -31,10 +31,10 @@
     $errMessage = $e->getMessage();
     echo $errMessage;
 }
-while ($allProducts as $infos != 1) :
+// while ($allProducts as $infos != 1) :
   //var_dump($allProducts[0]);
 
-if $infos['id'] =! 1 ?>
+ ?>
 
 
     <div class="flex flex-wrap items-baseline">
@@ -53,7 +53,6 @@ if $infos['id'] =! 1 ?>
       </div>
     </div>
     <div class="flex space-x-4 mb-5 text-sm font-medium">
-    <?php endforeach; ?>
       <div class="flex-auto flex space-x-4 pr-4">
         <button class="flex-none w-1/2 h-12 uppercase font-medium tracking-wider border border-slate-200 text-slate-900" type="button">
           Add to cart

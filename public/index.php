@@ -1,18 +1,12 @@
 <?php
 require_once __DIR__ . '/../src/init.php';
-
-try {
-    //////////////////////////////
-    // GET ALL PRODUCTS FROM DB //
-    //////////////////////////////
-    $pdoStatement = $bdd->prepare("SELECT * FROM articles;");
-    $pdoStatement->execute();
-    $allProducts = $pdoStatement->fetchAll();
-    //var_dump($allProducts);
-} catch (PDOException $e) {
-    $errMessage = $e->getMessage();
-    echo $errMessage;
-}
+require_once __DIR__ . '/../src/db.php';
+//////////////////////////////
+// GET ALL PRODUCTS FROM DB //
+$pdoStatement = $bdd->prepare("SELECT * FROM articles;");
+$pdoStatement->execute();
+$allProducts = $pdoStatement->fetchAll();
+//var_dump($allProducts);
 
 $num;
 ?>
@@ -42,7 +36,7 @@ $num;
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
                     <?php
                     if ($user === false) { ?>
