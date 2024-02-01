@@ -52,13 +52,12 @@
             </div>
         </div>
  </nav>
-    
-   
-    <form method='post' action='../../../public/actions/edit.php'>
-      <input type="text" id="title-field" name="title-field" placeholder='Titre'>
-      <input type="text" id="price-field" name="price-field" placeholder='Prix'>
-      <input type="text" id="stock-field" name="stock-field" placeholder='Stock'>
-      <input type="text" id="description-field" name="description-field" placeholder='Description'>
+
+    <form method='post' action='../../../public/actions/edit.php?a=<?=$_GET['a']?>'>
+      <input type="text" id="title" name="title" placeholder='Titre'>
+      <input type="text" id="price" name="price" placeholder='Prix'>
+      <input type="text" id="stock" name="stock" placeholder='Stock'>
+      <input type="text" id="description" name="description" placeholder='Description'>
       <input type="submit" id="submit" name="submit" value='submit'>
     </form>
 

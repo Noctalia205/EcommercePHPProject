@@ -1,24 +1,29 @@
 <?php
 require_once __DIR__ . '../../../src/init.php';
 
-try {
-  /////////////////////////////////////
-  // MODIFY ELEMENT //
-  /////////////////////////////////////
-  $pdoStatement = $bdd->prepare("UPDATE table
-                                  SET nom_colonne_1 = 'nouvelle valeur'
-                                  WHERE condition");
-  $pdoStatement->execute([
-    ':articleid' => $_POST['a']],
-    ':articleid' => $_POST['a']],
-    ':articleid' => $_POST['a']]
+$statement = ''; // variable containing all requests
+$article_id =  $_GET['a'];
 
-  );
-} catch (PDOException $e) {
-  $errMessage = $e->getMessage();
-  echo $errMessage;
+
+if ($_POST["title"]) { // if title modified
+  $title = $_POST["title"];
+  $statement .= "UPDATE articles SET title = '$title' WHERE id = '$article_id' ; ";
+}
+if ($_POST["price"]) {
+  $price = $_POST["price"];
+  $statement .= "UPDATE articles SET price = '$price' WHERE id = '$article_id' ; ";
+}
+if ($_POST["stock"]) {
+  $stock = $_POST["stock"];
+  $statement .= "UPDATE articles SET stock = '$stock' WHERE id = '$article_id' ; ";
+}
+if ($_POST["description"]) {
+  $description = $_POST['description'];
+  $statement .= "UPDATE articles SET description = '$description' WHERE id = '$article_id' ; ";
 }
 
-header('Location: ../../src/class/admin/log_articles.php');
+$pdoStatement = $bdd->prepare($statement);
+  $pdoStatement->execute([]);
 
+header('Location: ../../src/class/admin/log_articles.php');
 ?>
