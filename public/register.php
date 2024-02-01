@@ -96,8 +96,6 @@ require_once __DIR__ . '/../src/init.php';
   </figure>
 </form>
 </div>
-    
-    <?php 
-    ?>
+  
 </body>
 </html>

@@ -21,32 +21,36 @@ require_once __DIR__ . '/../src/init.php';
         $password = $_POST['password'];
         $rememberme = isset($_POST['rememberme']) ? $_POST['rememberme'] : '';
 
-        // all user info from Users table
-        $user = getUserByEmail($email);
+        // check if admin
+        $user = adminConnection($email,$password);
+        var_dump($user);
 
-        // if user doesn't exist in users table, check if not in admin table
-        if (is_null($user)) {
-            $user = adminConnection($email);
-        }
+        // if not admin check if user
+        if (!$user) {
+            $user = userConnexion($email, $password);
 
-        if ($user && password_verify($password, $user['password'])) {
-            // accurate email and password entered
-             session_start();
-            $_SESSION['user_id'] = $user['id'];
-        header('Location: /');
-        exit;
+            if ($user != null) {
+                // accurate email and password entered
+                 session_start();
+                $_SESSION['user_id'] = $user['id'];
+                echo 'Welcome !';
+            exit;
+            } else {
+                $error = "Invalid email or password";
+                $_SESSION['error'] = $error;
+        
+                echo 'Invalid email or password';
+                exit;
+            }
         } else {
-        $error = "Invalid email or password";
-        $_SESSION['error'] = $error;
-        header('Location: /login.php');
-        exit;
+            echo 'Welcome, Admin !';
         }
     }
     ?>
 
     <div class="register">
-    <form method="POST" action="actions/login.php" id="login-form" class="login-form" autocomplete="off" role="main">
-  <h1 class="a11y-hidden">Login Form</h1>
+    <form method="POST" id="login-form" class="login-form" autocomplete="off" role="main">
+  <h1 class="a11y-hidden"> Login Form </h1>
   <div>
     <label class="label-email">
       <input type="email" class="text" name="mail" placeholder="Email" required />

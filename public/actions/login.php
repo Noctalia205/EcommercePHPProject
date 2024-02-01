@@ -12,7 +12,6 @@ if (isset($_POST['rememberme']) && $_POST['rememberme'] === 'yes') {
 // require ici
 
 session_start();
-
 var_dump($_POST, $ok);
 
 // traitement classique

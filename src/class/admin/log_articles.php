@@ -44,7 +44,7 @@ try {
 						<td><?php echo $infos['price'] ?></td>
 						<td><?php echo $infos['stock'] ?></td>
                         <form>
-                            <td> <a href='../../../public/actions/edit.php'> modifier </a> </td>
+                            <td> <a href='update_articles.php?a=<?=$infos['id']?>'> modifier </a> </td>
                             <td> <a href='../../../public/actions/delete.php?a=<?=$infos['id']?>'> supprimer </a> </td>
                         </form>
 					</tr>
