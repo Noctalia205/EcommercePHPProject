@@ -7,6 +7,7 @@ try
 }
 catch(Exception $e)
 {
+
   die("Une erreur a été trouvée : " . $e->getMessage());
 }
 $bdd->query("SET NAMES UTF8");

@@ -1,8 +1,9 @@
-<?php 
+<?php
 require_once __DIR__ . '/../src/init.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, 
@@ -11,9 +12,11 @@ require_once __DIR__ . '/../src/init.php';
     
     <title>Login</title>
 </head>
+
 <body>
     <?php require_once __DIR__ . '/../src/partials/menu.php'; ?>
     <?php require_once __DIR__ . '/../src/partials/show_error.php';
+
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // get all post values
@@ -78,5 +81,7 @@ require_once __DIR__ . '/../src/init.php';
   </figure>
 </form>
 </div>
+
 </body>
+
 </html>
