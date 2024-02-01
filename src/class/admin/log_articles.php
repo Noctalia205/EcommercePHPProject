@@ -19,7 +19,7 @@ try {
 <html lang="en">
 
 <head>
-    <title> ADMIN • Articles </title>
+    <title> ADMIN • Articles </title>
     <?php require_once SITE_ROOT.'src/partials/head_css.php' ; ?>
 </head>
 
@@ -30,6 +30,7 @@ try {
 		<table>
 			<thead>
 				<tr>
+                    <th> ID </th>
 					<th> Titre </th>
 					<th> Prix </th>
 					<th> Stock </th>
@@ -38,14 +39,13 @@ try {
 			<tbody>
 				<?php foreach ($allProducts as $infos) : ?>
 					<tr id='<?= $infos['id'] ?>'>
+                        <td><?php echo $infos['id'] ?></td>
 						<td><?php echo $infos['title'] ?></td>
 						<td><?php echo $infos['price'] ?></td>
 						<td><?php echo $infos['stock'] ?></td>
                         <form>
-                            <td> <input type="submit" value="modifier"> </td>
-                            <td> <input type="submit" value="supprimer">
-                                <?php //$pdoStatement = $bdd->prepare("DELETE FROM articles WHERE id=:articleid");
-                                //$pdoStatement->execute([':articleid' => $infos['id']]);?> </td>
+                            <td> <a href='../../../public/actions/edit.php'> modifier </a> </td>
+                            <td> <a href='../../../public/actions/delete.php?a=<?=$infos['id']?>'> supprimer </a> </td>
                         </form>
 					</tr>
 				<?php endforeach; ?>

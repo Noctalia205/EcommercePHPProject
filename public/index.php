@@ -76,9 +76,9 @@ $num;
                  <?php foreach ($requests as $request) : ?>
                 <div class="card" style="width: 18rem;">
                 <a href="product_page.php"> <img src="<?= '../' . $infos['photo_path'] ?>" class="card-img-top"  alt="..."> </a>
-                    <div class="card-body">
+                    <div class="card-body"> // on click system 
                         <h5 class="card-title"> <?php echo $request['title'] ?></h5>
-                        <h5 class="card-price"> <?php echo $request['price'] ?></h5>
+                        <h5 class="card-price"> <?php echo $request['price'] ?></h5> 
                         <a href="#" class="btn btn-primary"> Add to cart </a>
                     </div>
                 </div>
