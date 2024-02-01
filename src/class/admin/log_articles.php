@@ -53,5 +53,7 @@ try {
 		</table>
 	</main>
 
+    <a href='add_articles.php'> add article </a>
+
 </body>
 </html>
