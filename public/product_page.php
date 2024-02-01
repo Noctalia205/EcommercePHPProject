@@ -53,8 +53,6 @@
             </div>
         </div>
     </nav>
-    
-   
   <div class="flex font-serif">
     <div class="flex-none w-52 relative">
       <img src="" alt="" class="absolute inset-0 w-full h-full object-cover rounded-lg" loading="lazy" />
@@ -98,16 +96,14 @@
       </div>
     </form>
   </div>
-  <!--
-/////////////////
-///Description///
-////////////////
--->
+
+
+
+
 
   <div class="container"></div>
   <span id="rateMe3"  class="rating-faces"></span>
   </div>
-    
   <div>
 
     <div class="card">
@@ -197,7 +193,5 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 
 </body>
-
 <!-- rating.js file -->
-
 </html>

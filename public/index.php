@@ -13,7 +13,6 @@ try {
     $errMessage = $e->getMessage();
     echo $errMessage;
 }
-
 $num;
 ?>
 <!DOCTYPE html>
