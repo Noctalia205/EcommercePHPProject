@@ -4,7 +4,6 @@ session_start();
 require_once __DIR__ . '/db.php';
 
 // require des utilitaires *utils*
-
 // require les classes
 
 $user = false;
@@ -15,19 +14,26 @@ if (isset($_SESSION['user_id'])) {
     $st->execute([$_SESSION['user_id']]);
     $user = $st->fetch(PDO::FETCH_ASSOC);
 }
-//////////////////////////////////
-//ARE U SURE ABOUT THAT FUNCTION//
-/////////////////////////////////
-function getUserByEmail($email) {
-    global $db;
+// ARE U SURE ABOUT THAT FUNCTION //
+function userConnexion($email, $password) {
+    global $bdd;
 
-    $stmt = $db->prepare("SELECT * FROM users WHERE mail = ?");
-    $stmt->bind_param("s", $email);
+    $password = hash('sha256', $password);
+    $stmt = $bdd->prepare("SELECT * FROM admin WHERE mail = '$email' AND password = '$password';");
     $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
-    $stmt->close();
+    $user = $stmt->fetch();
 
     return $user;
 }
+
+function adminConnection($email,$password) {
+    global $bdd;
+
+    $stmt = $bdd->prepare("SELECT * FROM admin WHERE mail = '$email' AND password = '$password';");
+    $stmt->execute();
+    $user = $stmt->fetch();
+
+    return $user;
+}
+
 ?>

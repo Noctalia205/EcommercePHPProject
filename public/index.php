@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../src/init.php';
-https://github.com/Noctalia205/EcommercePHPProject/pull/9/conflict?name=public%252Findex.php&ancestor_oid=61a0dca0f5fffeb20a1d398bad34f28af83d7c75&base_oid=f56d625c73ac2f364e0983194779bb3bf101c901&head_oid=041a8182fd1436269519fed074583a9ca57a73fb
+
 try {
     //////////////////////////////
     // GET ALL PRODUCTS FROM DB //
@@ -13,7 +13,6 @@ try {
     $errMessage = $e->getMessage();
     echo $errMessage;
 }
-
 $num;
 ?>
 <!DOCTYPE html>
@@ -75,7 +74,7 @@ $num;
         ?>
                 <?php foreach ($requests as $request) : ?>
                     <div class="card" style="width: 18rem;">
-                        <a href="product_page.php"> <img src="<?= '../' . $infos['photo_path'] ?>" class="card-img-top" alt="..."> </a>
+                    <a href="product_page.php?id=<?php echo $request['id'] ?>"> <img src="<?= '../' . $infos['photo_path'] ?>" class="card-img-top" alt="..."> </a>
                         <div class="card-body">
                             <h5 class="card-title"> <?php echo $request['title'] ?></h5>
                             <h5 class="card-price"> <?php echo $request['price'] ?></h5>

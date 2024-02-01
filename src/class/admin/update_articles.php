@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 <!DOCTYPE html>
 <html lang="en">
 <?php require_once __DIR__ . '/../..//init.php'; ?>
@@ -54,8 +52,7 @@
             </div>
         </div>
  </nav>
-    
-   
+
     <form method='post' action='../../../public/actions/edit.php?a=<?=$_GET['a']?>'>
       <input type="text" id="title" name="title" placeholder='Titre'>
       <input type="text" id="price" name="price" placeholder='Prix'>
@@ -66,4 +63,3 @@
 
 </body>
 </html>
->>>>>>> Stashed changes
