@@ -34,7 +34,7 @@
       <div class="flex flex-wrap items-baseline">
         <h1 class="w-full flex-none mb-3 text-2xl leading-none text-slate-900">
           <?php echo $infos['title'] ?>
-          <div class="card" style="width: 18rem;">
+          <div class="card" style="width: 25rem;">
             <img src="<?= '../' . $infos['photo_path'] ?>" class="card-img-top" alt="..." style=>
           </div>
         </h1>
