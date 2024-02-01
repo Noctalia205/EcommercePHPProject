@@ -15,44 +15,10 @@ require_once __DIR__ . '/../src/init.php';
 
 <body>
     <?php require_once __DIR__ . '/../src/partials/menu.php'; ?>
-    <?php require_once __DIR__ . '/../src/partials/show_error.php';
-
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // get all post values
-        $email = $_POST['mail'];
-        $password = $_POST['password'];
-        $rememberme = isset($_POST['rememberme']) ? $_POST['rememberme'] : '';
-
-        // check if admin
-        $user = adminConnection($email,$password);
-        var_dump($user);
-
-        // if not admin check if user
-        if (!$user) {
-            $user = userConnexion($email, $password);
-
-            if ($user != null) {
-                // accurate email and password entered
-                 session_start();
-                $_SESSION['user_id'] = $user['id'];
-                echo 'Welcome !';
-            exit;
-            } else {
-                $error = "Invalid email or password";
-                $_SESSION['error'] = $error;
-        
-                echo 'Invalid email or password';
-                exit;
-            }
-        } else {
-            echo 'Welcome, Admin !';
-        }
-    }
-    ?>
+    <?php require_once __DIR__ . '/../src/partials/show_error.php';?>
 
     <div class="register">
-    <form method="POST" id="login-form" class="login-form" autocomplete="off" role="main">
+    <form method="POST" id="login-form" class="login-form" autocomplete="off" role="main" action='actions/login.php'>
   <h1 class="a11y-hidden"> Login Form </h1>
   <div>
     <label class="label-email">
