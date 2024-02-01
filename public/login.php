@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //////////////////
     // LET ME CHECK//
     ////////////////
-    $email = $_POST['email'];
+    $email = $_POST['mail'];
     $password = $_POST['password'];
     $rememberme = isset($_POST['rememberme']) ? $_POST['rememberme'] : '';
     //////////////////
@@ -57,8 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <form action="/actions/login.php" method="post">
         <div>
-            <label for="email">Email:</label>
-            <input type="text" name="email" id="email">
+            <label for="mail">Email:</label>
+            <input type="text" name="mail" id="mail">
         </div>
         <div>
             <label for="password">Password:</label>
