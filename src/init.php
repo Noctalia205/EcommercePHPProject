@@ -15,12 +15,13 @@ if (isset($_SESSION['user_id'])) {
     $user = $st->fetch(PDO::FETCH_ASSOC);
 }
 // ARE U SURE ABOUT THAT FUNCTION //
-function userConnexion($email, $password) {
+function userConnection($email, $password) {
     global $bdd;
 
-    $password = hash('sha256', $password);
-    $stmt = $bdd->prepare("SELECT * FROM admin WHERE mail = '$email' AND password = '$password';");
-    $stmt->execute();
+    $newpassword = hash('sha256', $password);
+
+    $stmt = $bdd->prepare("SELECT * FROM users WHERE mail = '$email' AND password = '$newpassword';");
+    $stmt->execute([]);
     $user = $stmt->fetch();
 
     return $user;
@@ -30,7 +31,7 @@ function adminConnection($email,$password) {
     global $bdd;
 
     $stmt = $bdd->prepare("SELECT * FROM admin WHERE mail = '$email' AND password = '$password';");
-    $stmt->execute();
+    $stmt->execute([]);
     $user = $stmt->fetch();
 
     return $user;
