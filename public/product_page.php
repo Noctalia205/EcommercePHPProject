@@ -15,6 +15,7 @@
 
 
 
+
   <div class="flex font-serif">
     <div class="flex-none w-52 relative">
       <img src="" alt="" class="absolute inset-0 w-full h-full object-cover rounded-lg" loading="lazy" />

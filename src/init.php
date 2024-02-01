@@ -4,7 +4,6 @@ session_start();
 require_once __DIR__ . '/db.php';
 
 // require des utilitaires *utils*
-
 // require les classes
 
 $user = false;
@@ -30,4 +29,18 @@ function getUserByEmail($email) {
 
     return $user;
 }
+
+function adminConnection($email) {
+    global $db;
+
+    $stmt = $db->prepare("SELECT * FROM admin WHERE mail = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+    $stmt->close();
+
+    return $user;
+}
+
 ?>

@@ -1,18 +1,12 @@
 <?php
 require_once __DIR__ . '/../src/init.php';
-https://github.com/Noctalia205/EcommercePHPProject/pull/9/conflict?name=public%252Findex.php&ancestor_oid=61a0dca0f5fffeb20a1d398bad34f28af83d7c75&base_oid=f56d625c73ac2f364e0983194779bb3bf101c901&head_oid=041a8182fd1436269519fed074583a9ca57a73fb
-try {
-    //////////////////////////////
-    // GET ALL PRODUCTS FROM DB //
-    //////////////////////////////
-    $pdoStatement = $bdd->prepare("SELECT * FROM articles;");
-    $pdoStatement->execute();
-    $allProducts = $pdoStatement->fetchAll();
-    //var_dump($allProducts);
-} catch (PDOException $e) {
-    $errMessage = $e->getMessage();
-    echo $errMessage;
-}
+require_once __DIR__ . '/../src/db.php';
+//////////////////////////////
+// GET ALL PRODUCTS FROM DB //
+$pdoStatement = $bdd->prepare("SELECT * FROM articles;");
+$pdoStatement->execute();
+$allProducts = $pdoStatement->fetchAll();
+
 
 $num;
 ?>
@@ -42,7 +36,7 @@ $num;
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
                     <?php
                     if ($user === false) { ?>
