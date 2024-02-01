@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Jan 31, 2024 at 02:25 PM
+-- Generation Time: Feb 01, 2024 at 05:31 PM
 -- Server version: 5.7.39
 -- PHP Version: 8.2.0
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admin` (
   `id` int(10) UNSIGNED NOT NULL,
-  `pseudo` varchar(255) NOT NULL,
+  `mail` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -37,8 +37,8 @@ CREATE TABLE `admin` (
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`id`, `pseudo`, `password`) VALUES
-(1, 'admin', 'lampupmal');
+INSERT INTO `admin` (`id`, `mail`, `password`) VALUES
+(1, 'admin@admin.com', 'lampupmal');
 
 -- --------------------------------------------------------
 
@@ -72,6 +72,18 @@ INSERT INTO `articles` (`id`, `title`, `description`, `price`, `stock`, `photo_p
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ordered_articles`
+--
+
+CREATE TABLE `ordered_articles` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `order_id` int(10) UNSIGNED NOT NULL,
+  `article_id` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `orders`
 --
 
@@ -83,6 +95,13 @@ CREATE TABLE `orders` (
   `total_price` float NOT NULL,
   `address` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `customer_id`, `articles_quantity`, `purchase_date`, `total_price`, `address`) VALUES
+(204, 5, 20, '2024-02-01 16:34:29', 2, '2');
 
 -- --------------------------------------------------------
 
@@ -118,7 +137,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `mail`, `password`) VALUES
-(1, 'jehfb', 'hazrolgz', 'test@gmail.com', 'eb77a827014255f7d305d56991c5967208510672d1a276985dfae9810f109d0e');
+(3, 'grand', 'bidule', 'theo.saint-amand@orange.fr', 'aa3d2fe4f6d301dbd6b8fb2d2fddfb7aeebf3bec53ffff4b39a0967afa88c609'),
+(4, 'bidule', 'petit', 'theo@gmail.com', 'aa3d2fe4f6d301dbd6b8fb2d2fddfb7aeebf3bec53ffff4b39a0967afa88c609'),
+(5, 'Je suis ', 'Petit', 'kiwi@gmail.com', 'aa3d2fe4f6d301dbd6b8fb2d2fddfb7aeebf3bec53ffff4b39a0967afa88c609'),
+(6, 'test', 'test', 'test@gmail.com', '37268335dd6931045bdcdf92623ff819a64244b53d0e746d438797349d4da578');
 
 --
 -- Indexes for dumped tables
@@ -135,6 +157,14 @@ ALTER TABLE `admin`
 --
 ALTER TABLE `articles`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ordered_articles`
+--
+ALTER TABLE `ordered_articles`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_id` (`order_id`),
+  ADD KEY `article_id` (`article_id`);
 
 --
 -- Indexes for table `orders`
@@ -177,7 +207,7 @@ ALTER TABLE `articles`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -189,11 +219,18 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `ordered_articles`
+--
+ALTER TABLE `ordered_articles`
+  ADD CONSTRAINT `ordered_articles_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+  ADD CONSTRAINT `ordered_articles_ibfk_2` FOREIGN KEY (`article_id`) REFERENCES `articles` (`id`);
 
 --
 -- Constraints for table `orders`
