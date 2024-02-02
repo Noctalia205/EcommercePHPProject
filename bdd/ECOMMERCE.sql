@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Feb 01, 2024 at 05:31 PM
+-- Generation Time: Feb 02, 2024 at 10:03 AM
 -- Server version: 5.7.39
 -- PHP Version: 8.2.0
 
@@ -60,7 +60,7 @@ CREATE TABLE `articles` (
 --
 
 INSERT INTO `articles` (`id`, `title`, `description`, `price`, `stock`, `photo_path`) VALUES
-(1, 'Petit Bidule', 'Explorez notre Petit Bidule - une fusion irrésistible de charme et de praticité ! Cette adorable lampe émet une lueur douce, ajoutant une touche de tendresse à votre espace. Son format compact en fait le compagnon parfait pour votre table de chevet, bureau, ou toute petite recoin nécessitant une lueur chaleureuse. Avec son design câlin et une facilité d\'utilisation, cette petite lampe deviendra vite un incontournable. Illuminez votre intérieur avec Petit Bidule pour une ambiance chaleureuse et pleine de charme !', 19.99, 2, 'bdd/article_photos/0.jpeg'),
+(1, 'Grand Bidule', 'Explorez notre Petit Bidule - une fusion irrésistible de charme et de praticité ! Cette adorable lampe émet une lueur douce, ajoutant une touche de tendresse à votre espace. Son format compact en fait le compagnon parfait pour votre table de chevet, bureau, ou toute petite recoin nécessitant une lueur chaleureuse. Avec son design câlin et une facilité d\'utilisation, cette petite lampe deviendra vite un incontournable. Illuminez votre intérieur avec Petit Bidule pour une ambiance chaleureuse et pleine de charme !', 19.99, 2, 'bdd/article_photos/0.jpeg'),
 (2, 'Petite Poire', 'Découvrez notre adorable Lampe en forme de Poire, alliant à la perfection fantaisie et praticité ! Son design charmant apporte une touche de douceur à votre décoration intérieure. Avec une silhouette ergonomique, sa lueur chaude crée une atmosphère accueillante. Dotée d\'un interrupteur tactile, cette lampe LED écologique s\'adapte à tous les styles. Ajoutez une touche de charme à votre espace avec la Lampe en forme de Poire !', 19.99, 2, 'bdd/article_photos/1.jpeg'),
 (3, 'Petit Toast', 'Découvrez notre Lampe Toast – une alliance parfaite entre originalité et fonctionnalité ! Cette lampe unique apporte une touche décalée à votre décoration. Avec sa forme de toast ludique, elle diffuse une lueur chaleureuse, parfaite pour une ambiance décontractée. Dotée d\'un interrupteur tactile, cette lampe LED écologique s\'intègre harmonieusement à tous les styles. Ajoutez une note d\'humour à votre espace avec la Lampe Toast !', 19.99, 2, 'bdd/article_photos/2.jpeg'),
 (4, 'Petit Lapin', 'Découvrez notre irrésistible Lampe Lapin – la fusion parfaite entre mignonnerie et utilité ! Cette lampe charmante apporte une atmosphère douce à votre intérieur. Avec sa silhouette de lapin adorable, elle émet une lueur chaleureuse, idéale pour une ambiance cocooning. Équipée d\'un interrupteur tactile, cette lampe LED écoénergétique s\'adapte à tous les décors. Ajoutez une touche ludique à votre espace avec la Lampe Lapin !', 19.99, 2, 'bdd/article_photos/3.jpeg'),
@@ -93,15 +93,19 @@ CREATE TABLE `orders` (
   `articles_quantity` int(3) NOT NULL,
   `purchase_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `total_price` float NOT NULL,
-  `address` varchar(255) NOT NULL
+  `address` varchar(255) NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `last_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `customer_id`, `articles_quantity`, `purchase_date`, `total_price`, `address`) VALUES
-(204, 5, 20, '2024-02-01 16:34:29', 2, '2');
+INSERT INTO `orders` (`id`, `customer_id`, `articles_quantity`, `purchase_date`, `total_price`, `address`, `status`, `last_modified`) VALUES
+(204, 5, 20, '2024-02-01 16:34:29', 2, 'fdkjfskfsldk', 'Nouvelle', '2024-01-02 04:01:12'),
+(205, 10, 2, '2024-02-01 23:35:44', 29.99, 'djklfjkdlsjflsjl', 'Envoyée', '2024-02-02 04:07:15'),
+(206, 10, 2, '2024-02-01 23:35:48', 29.99, 'la rue', 'Retour client', '2024-02-02 04:12:58');
 
 -- --------------------------------------------------------
 
@@ -117,6 +121,19 @@ CREATE TABLE `reviews` (
   `author_id` int(10) UNSIGNED NOT NULL,
   `reviewed_article_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `reviews`
+--
+
+INSERT INTO `reviews` (`id`, `title`, `description`, `number_stars`, `author_id`, `reviewed_article_id`) VALUES
+(8, ' ', 'dslfjlsdf', 4, 7, 3),
+(9, 'test test', 'trop bieng', 4, 7, 5),
+(10, 'test test', 'fjkdlgdf', 4, 7, 5),
+(11, 'test test', 'fjdsklfjds', 4, 7, 5),
+(12, 'test test', 'fjdsklfjds', 4, 7, 5),
+(13, 'test test', 'hello hello', 4, 7, 2),
+(18, 'hello hello', 'hello there rhekrhzjrhzek', 3, 10, 2);
 
 -- --------------------------------------------------------
 
@@ -140,7 +157,8 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `mail`, `password`) VALUES
 (3, 'grand', 'bidule', 'theo.saint-amand@orange.fr', 'aa3d2fe4f6d301dbd6b8fb2d2fddfb7aeebf3bec53ffff4b39a0967afa88c609'),
 (4, 'bidule', 'petit', 'theo@gmail.com', 'aa3d2fe4f6d301dbd6b8fb2d2fddfb7aeebf3bec53ffff4b39a0967afa88c609'),
 (5, 'Je suis ', 'Petit', 'kiwi@gmail.com', 'aa3d2fe4f6d301dbd6b8fb2d2fddfb7aeebf3bec53ffff4b39a0967afa88c609'),
-(6, 'test', 'test', 'test@gmail.com', '37268335dd6931045bdcdf92623ff819a64244b53d0e746d438797349d4da578');
+(7, 'test', 'test', 'test@gmail.com', '37268335dd6931045bdcdf92623ff819a64244b53d0e746d438797349d4da578'),
+(10, 'hello', 'hello', 'hello@gmail.com', '0a86050fb37a4def36885da9557f5b22a9e191767a80e7a4a2415410a4462b68');
 
 --
 -- Indexes for dumped tables
@@ -201,25 +219,25 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `articles`
 --
 ALTER TABLE `articles`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=207;
 
 --
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables

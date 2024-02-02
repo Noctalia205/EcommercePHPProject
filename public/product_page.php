@@ -1,7 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php require_once __DIR__ . '/../src/init.php'; ?>
-<?php require_once SITE_ROOT . 'src/partials/head_css.php'; ?>
+<?php require_once SITE_ROOT . 'src/partials/head_css.php';
+
+$id = $_GET['id'];
+$pdoStatement = $bdd->prepare("SELECT * FROM articles WHERE id='$id';");
+$pdoStatement->execute();
+$infos = $pdoStatement->fetch();
+//var_dump($selectedProduct);
+
+if (isset($_SESSION['user_id'])) {
+  $userId = $_SESSION['user_id'];
+  $reviewCheckStatement = $bdd->prepare("SELECT * FROM reviews WHERE author_id = $userId ;");
+  $reviewCheckStatement->execute();
+  $reviewCheck = $reviewCheckStatement->fetch();
+
+  if ($reviewCheck == null) {
+    if (isset($_POST['submit'])) {
+      $objectId = $id;
+      $comments = $_POST['comment'];
+      $ratings = $_POST['rating'];
+
+      $getNameStatement = $bdd->prepare("SELECT first_name, last_name
+                                        FROM users WHERE id = $userId;");
+      $getNameStatement->execute();
+      $userNameInfo = $getNameStatement->fetch();
+
+      $userNameInfo = $userNameInfo["first_name"] . ' ' . $userNameInfo["last_name"];
+
+      $pdoStatement2 = $bdd->prepare('INSERT INTO reviews (title, description, number_stars, author_id, reviewed_article_id) VALUES(?, ?, ?, ?, ?)');
+      $pdoStatement2->execute([$userNameInfo, $comments, $ratings, $userId, $objectId]);
+    }
+  } else {
+    echo '<h1>vous avez déjà entré un avis</h1>';
+  }
+}?>
 
 <head>
   <meta charset="UTF-8">
@@ -59,18 +92,13 @@
     </div>
     <form class="flex-auto p-6">
 
-      <?php
-      $id = $_GET['id'];
-      $pdoStatement = $bdd->prepare("SELECT * FROM articles WHERE id='$id';");
-      $pdoStatement->execute();
-      $infos = $pdoStatement->fetch();
-      //var_dump($selectedProduct);
-      ?>
-
 
       <div class="flex flex-wrap items-baseline">
         <h1 class="w-full flex-none mb-3 text-2xl leading-none text-slate-900">
           <?php echo $infos['title'] ?>
+      
+      <div class="mx-4 flex flex-wrap items-baseline">
+        <h1 class="w-full flex-none mb-3 text-2xl leading-none text-slate-900">
           <div class="card" style="width: 25rem;">
             <img src="<?= '../' . $infos['photo_path'] ?>" class="card-img-top" alt="..." style=>
           </div>
@@ -120,74 +148,50 @@
   </div>
 
   <div class="card">
-               
-               <div class="row">
-                   
-                   <div class="col-2">
-                       
-                       
-                       <img src="https://i.imgur.com/xELPaag.jpg" width="70" class="rounded-circle mt-2">
-                   
-                   
-                   </div>
-                   
-                   <div class="col-10">
-                       
-                       <div class="comment-box ml-2">
-                           
-                           <h4>commentair</h4>
-                           
-                           <div class="rating"> 
-                               <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
-                               <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> 
-                               <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
-                               <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
-                               <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
-                           </div>
-                           
-                           <div class="comment-area">
-                               
-                               <textarea class="form-control" placeholder="what is your view?" rows="4"></textarea>
-                           
-                           </div>
-                           
-                           <div class="comment-btns mt-2">
-                               
-                               <div class="row">
-                                   
-                                   <div class="col-6">
-                                       
-                                       <div class="pull-left">
-                                       
-                                       <button class="btn btn-success btn-sm">Cancel</button>      
-                                           
-                                       </div>
-                                   
-                                   </div>
-                                   
-                                   <div class="col-6">
-                                       
-                                       <div class="pull-right">
-                                       
-                                       <button class="btn btn-success send btn-sm">Send <i class="fa fa-long-arrow-right ml-1"></i></button>      
-                                           
-                                       </div>
-                                   
-                                   </div>
-                               
-                               </div>
-                           
-                           </div>
-                       
-                       
-                       </div>
-                   
-                   </div>
-               
-               
-               </div>
-     
-           </div>
+    <form method="post">
+      <div class="row">
+        <div class="col-2">
+          <img src="https://i.imgur.com/xELPaag.jpg" width="70" class="rounded-circle mt-2">
+        </div>
+        <div class="col-10">
+          <div class="comment-box ml-2">
+            <h4>Commentaire</h4>
+            <div class="rating">
+              <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+              <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+              <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+              <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+              <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+            </div>
+            <div class="comment-area">
+              <textarea class="form-control" name="comment" placeholder="Quel est votre avis?" rows="4"></textarea>
+            </div>
+            <div class="comment-btns mt-2">
+              <div class="row">
+                <div class="col-6">
+                  <div class="pull-left">
+                    <button class="btn btn-success btn-sm" type="button" onclick="resetForm()">Annuler</button>
+                    <script>
+                      function resetForm() {
+                        // Réinitialisez les champs de note et de message
+                        document.getElementsByName('rating').forEach(radio => radio.checked = false);
+                        document.getElementsByName('comment')[0].value = '';
+                      }
+                    </script>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="pull-right">
+                    <input class="btn btn-success send btn-sm" type="submit" name="submit" value="Envoyer">
+                    <i class="fa fa-long-arrow-right ml-1"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
 
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
