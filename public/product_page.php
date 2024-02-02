@@ -4,14 +4,14 @@
 <?php require_once SITE_ROOT . 'src/partials/head_css.php';
 
 $id = $_GET['id'];
-$pdoStatement = $bdd->prepare("SELECT * FROM articles WHERE id='$id';");
+$pdoStatement = $bdd->prepare("SELECT * FROM articles WHERE id= $id;");
 $pdoStatement->execute();
 $infos = $pdoStatement->fetch();
 //var_dump($selectedProduct);
 
 if (isset($_SESSION['user_id'])) {
   $userId = $_SESSION['user_id'];
-  $reviewCheckStatement = $bdd->prepare("SELECT * FROM reviews WHERE author_id = $userId ;");
+  $reviewCheckStatement = $bdd->prepare("SELECT * FROM reviews WHERE author_id = $userId AND reviewed_article_id = $id");
   $reviewCheckStatement->execute();
   $reviewCheck = $reviewCheckStatement->fetch();
   
@@ -96,7 +96,11 @@ if (isset($_SESSION['user_id'])) {
           <H3><?php echo $infos['price'] ?> €</H3>
         </div>
         <div class="text-xs leading-6 font-medium uppercase text-slate-500">
-          <h4><?php echo $infos['stock'] ?> En Stock</h4>
+          <h4><?php if ($infos['stock'] <= 0) {
+            echo "Rupture de stock";
+          }else{
+            echo $infos['stock'];
+          }  ?> En Stock</h4>
         </div>
       </div>
       <div class="flex items-baseline mt-4 mb-6 pb-6 border-b border-slate-200">
@@ -104,11 +108,7 @@ if (isset($_SESSION['user_id'])) {
         </div>
       </div>
       <div class="flex space-x-4 mb-5 text-sm font-medium">
-        <div class="flex-auto flex space-x-4 pr-4">
-          <button class="flex-none w-1/2 h-12 uppercase font-medium tracking-wider border border-slate-200 text-slate-900" type="button">
-            Add to cart
-          </button>
-        </div>
+       
         </button>
       </div>
     </form>
@@ -186,7 +186,7 @@ if (isset($_SESSION['user_id'])) {
   </div>
   <div class="comments-container">
     <?php
-    $pdoStatement3 = $bdd->prepare("SELECT * FROM reviews WHERE reviewed_article_id='$id';");
+    $pdoStatement3 = $bdd->prepare("SELECT * FROM reviews WHERE reviewed_article_id = $id ;");
     $pdoStatement3->execute();
     $commentsList = $pdoStatement3->fetchAll();
 
