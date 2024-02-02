@@ -1,8 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php require_once __DIR__ . '/../src/init.php'; ?>
-<?php require_once __DIR__ . '/../src/db.php'; ?>
-<?php require_once SITE_ROOT . 'src/partials/head_css.php'; ?>
+<?php require_once SITE_ROOT . 'src/partials/head_css.php';
+
+$id = $_GET['id'];
+$pdoStatement = $bdd->prepare("SELECT * FROM articles WHERE id='$id';");
+$pdoStatement->execute();
+$infos = $pdoStatement->fetch();
+//var_dump($selectedProduct);
+
+if (isset($_SESSION['user_id'])) {
+  $userId = $_SESSION['user_id'];
+  $reviewCheckStatement = $bdd->prepare("SELECT * FROM reviews WHERE author_id = $userId ;");
+  $reviewCheckStatement->execute();
+  $reviewCheck = $reviewCheckStatement->fetch();
+
+  if ($reviewCheck == null) {
+    if (isset($_POST['submit'])) {
+      $objectId = $id;
+      $comments = $_POST['comment'];
+      $ratings = $_POST['rating'];
+
+      $getNameStatement = $bdd->prepare("SELECT first_name, last_name
+                                        FROM users WHERE id = $userId;");
+      $getNameStatement->execute();
+      $userNameInfo = $getNameStatement->fetch();
+
+      $userNameInfo = $userNameInfo["first_name"] . ' ' . $userNameInfo["last_name"];
+
+      $pdoStatement2 = $bdd->prepare('INSERT INTO reviews (title, description, number_stars, author_id, reviewed_article_id) VALUES(?, ?, ?, ?, ?)');
+      $pdoStatement2->execute([$userNameInfo, $comments, $ratings, $userId, $objectId]);
+    }
+  } else {
+    echo '<h1>vous avez déjà entré un avis</h1>';
+  }
+}?>
 
 <head>
   <meta charset="UTF-8">
@@ -50,21 +82,12 @@
   <div class="flex font-serif">
 
 
-    <form class="d-flex my-5 justify-content-center  flex-auto ">
-      <?php
-      $id = $_GET['id'];
-      $pdoStatement = $bdd->prepare("SELECT * FROM articles WHERE id='$id';");
-      $pdoStatement->execute();
-      $infos = $pdoStatement->fetch()
-      ?>
 
+    <form class="d-flex my-5 justify-content-center  flex-auto ">
 
       <div class="flex flex-wrap items-baseline">
         <h1 class="w-full flex-none mb-3 text-2xl leading-none text-slate-900">
           <?php echo $infos['title'] ?>
-      $infos = $pdoStatement->fetch();
-      //var_dump($selectedProduct);
-      ?>
       <div class="mx-4 flex flex-wrap items-baseline">
         <h1 class="w-full flex-none mb-3 text-2xl leading-none text-slate-900">
           <div class="card" style="width: 25rem;">
@@ -161,21 +184,6 @@
       </div>
     </form>
 
-    <?php
-
-
-    if (isset($_SESSION['id']) && isset($_POST['submit'])) {
-      $userId = $_SESSION['id'];
-      $userTitle = $infos['title'];
-
-      $objectId = $id;
-      $comments = $_POST['comment'];
-      $ratings = $_POST['rating'];
-
-      $pdoStatement2 = $pdo->prepare('INSERT INTO reviews(title, description, number_stars, author_id, reviewed_article_id) VALUES(?, ?, ?, ?, ?)');
-      $pdoStatement2->execute([$userTitle, $comments, $ratings, $userId, $objectId]);
-    }
-    ?>
 
   </div>
   <div class="comments-container">
@@ -192,8 +200,6 @@
       echo '</div>';
     }
     ?>
-  </div>
-=======
           <h4 class="text-center"><?= $infos['price'] ?>€ | En stock: <?= $infos['stock'] ?> </h4>
         </div>
       </div>
