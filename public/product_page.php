@@ -14,9 +14,9 @@ if (isset($_SESSION['user_id'])) {
   $reviewCheckStatement = $bdd->prepare("SELECT * FROM reviews WHERE author_id = $userId ;");
   $reviewCheckStatement->execute();
   $reviewCheck = $reviewCheckStatement->fetch();
-
-  if ($reviewCheck == null) {
-    if (isset($_POST['submit'])) {
+  
+  if (isset($_POST['submit'])) {
+    if ($reviewCheck == null) {
       $objectId = $id;
       $comments = $_POST['comment'];
       $ratings = $_POST['rating'];
@@ -31,9 +31,7 @@ if (isset($_SESSION['user_id'])) {
       $pdoStatement2 = $bdd->prepare('INSERT INTO reviews (title, description, number_stars, author_id, reviewed_article_id) VALUES(?, ?, ?, ?, ?)');
       $pdoStatement2->execute([$userNameInfo, $comments, $ratings, $userId, $objectId]);
     }
-  } else {
-    echo '<h1>vous avez déjà entré un avis</h1>';
-  }
+  } 
 }?>
 
 <head>
@@ -188,7 +186,7 @@ if (isset($_SESSION['user_id'])) {
   </div>
   <div class="comments-container">
     <?php
-    $pdoStatement3 = $pdo->prepare("SELECT * FROM reviews WHERE reviewed_article_id='$id';");
+    $pdoStatement3 = $bdd->prepare("SELECT * FROM reviews WHERE reviewed_article_id='$id';");
     $pdoStatement3->execute();
     $commentsList = $pdoStatement3->fetchAll();
 
@@ -200,70 +198,6 @@ if (isset($_SESSION['user_id'])) {
       echo '</div>';
     }
     ?>
-          <h4 class="text-center"><?= $infos['price'] ?>€ | En stock: <?= $infos['stock'] ?> </h4>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">
-          <h3> <?php echo $infos['title'] ?>
-          </h3>
-        </div>
-        <div class="card-body">
-          <blockquote class="blockquote mb-0">
-            <p> <?= $infos['description'] ?></p>
-          </blockquote>
-        </div>
-      </div>
-    </form>
-  </div>
-  <div class="container"></div>
-  <span id="rateMe3" class="rating-faces"></span>
-  </div>
-  <div class="card">
-    <div class="row">
-      <div class="col-2">
-        <img src="https://i.imgur.com/xELPaag.jpg" width="70" class="rounded-circle mt-2">
-      </div>
-      <div class="col-10">
-        <div class="comment-box ml-2">
-          <h4>Commentaire</h4>
-          <div class="rating">
-            <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
-            <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
-            <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
-            <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
-            <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
-          </div>
-          <div class="comment-area">
-            <textarea class="form-control" placeholder="what is your view?" rows="4"></textarea>
-          </div>
-          <div class="comment-btns mt-2">
-            <div class="row">
-              <div class="col-6">
-                <div class="pull-left">
-                  <button class="btn btn-success btn-sm">Cancel</button>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="pull-right">
-                  <button class="btn btn-success send btn-sm">Send <i class="fa fa-long-arrow-right ml-1"></i></button>
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-
-        </div>
-
-      </div>
-
-
-    </div>
-
-  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>

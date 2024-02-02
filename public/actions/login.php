@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             session_start();
             $_SESSION['user_id'] = $user['id'];
+            $_SESSION['cart_contents'] = array();
             var_dump($_SESSION);
             //var_dump($_POST, $ok);
 

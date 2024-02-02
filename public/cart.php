@@ -1,8 +1,20 @@
+<?php require_once __DIR__ . '/../src/db.php';
+require_once __DIR__ . '/../src/init.php';
+
+//$_SESSION['cart_contents'] = [];
+
+$id_article = $_GET['id'];
+$pdoStatement = $bdd->prepare("SELECT * FROM articles WHERE `id` = $id_article;");
+$pdoStatement->execute();
+$article_info = $pdoStatement->fetch();
+
+if (!in_array($article_info,$_SESSION['cart_contents'])) {
+    array_push($_SESSION['cart_contents'],$article_info);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
-<?php require_once __DIR__ . '/../src/db.php'; ?>
-
-
 
 <head>
     <meta charset="UTF-8">
@@ -41,48 +53,35 @@
             </div>
         </div>
     </nav>
-    <?php
-    if (isset($_GET["id"])) {
-        // $articleId = $_GET['id'];
-        // $requests = $bdd->prepare("SELECT id, title, price, photo_path, stock FROM articles WHERE id = $articleId ");
-        // $requests->execute(); 
-        // $result = $requests->fetch();
-        // var_dump($result);
-        // var_dump($result[3]);
 
-        // $pdoStatement = $bdd->prepare("INSERT INTO  orders (customer_id, articles_quantity, total_price, address) VALUES (?, ?, ?, ?) ");
-        // $pdoStatement->bindParam(1, $result[0]);
-        // $pdoStatement->bindParam(2, $result[2]);
-        // $pdoStatement->bindParam(3, $result[4]);
-        // $pdoStatement->bindParam(4, $result[4]);
-        // $pdoStatement->execute();
-        // var_dump("kiwi3");
-        $articleId = $_GET['id'];
-        //redirection page test 
-        $requests = $bdd->prepare("SELECT id, title, price, photo_path, stock FROM articles WHERE id = ?");
-        $requests->bindParam(1, $articleId);
-        $requests->execute();
 
-        $result = $requests->fetch(PDO::FETCH_ASSOC);
-        print($result["id"]);
-        print($result["price"]);
-        print($result["stock"]);
-        $id = $result["id"];
-        $price = $result["price"];
-        $stock = $result["stock"];
 
-        $st2 = $bdd->prepare("INSERT INTO orders (customer_id, articles_quantity, total_price, address) VALUES (:customer_id, :articles_quantity, :total_price, :address)");
+	<main id="table">
+		<table>
+			<thead>
+				<tr>
+					<th> Title </th>
+					<th> Price </th>
+					<th> Quantity </th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach ($_SESSION['cart_contents'] as $infos) : ?>
+					<tr>
+						<td><?php echo $infos[1] ?></td>
+						<td><?php echo $infos[3] ?></td>
+						<td> <form method='post' action='../src/class/user/orders.php'> 
+                                <input type="number" name = '<?=$infos[0]?>' min = '1' max='10'>
+                        </td>
+					</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+        <input type='submit' value='order!'>
+        </form>
+	</main>
 
-        $st2->execute([":customer_id" => 2, ":articles_quantity" => 2, ":total_price" => 19.99, ":address" => "tamerelapute"]);
 
-        $st2->execute([":customer_id" => $id, ":articles_quantity" => $stock, ":total_price" => $price, ":address" => "tamerelapute"]);
-    } ?>
-
-    <ol class="m-5  list-group list-group-numbered">
-        <li class="list-group-item">
-            Rien
-        </li>
-    </ol>
 </body>
 
 </html>
