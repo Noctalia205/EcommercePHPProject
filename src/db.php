@@ -5,6 +5,7 @@ try {
   $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (Exception $e) {
 
+
   die("Une erreur a été trouvée : " . $e->getMessage());
 }
 $bdd->query("SET NAMES UTF8");
