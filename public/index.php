@@ -65,41 +65,43 @@ $num;
         </div>
     </nav>
 
-    <section class="section1" style="display:flex; flex-wrap: wrap; ">
-        <?php
-        if (isset($_GET['submit'])) {
-            $str = $_GET['search'];
-            $requests = $bdd->query("SELECT title, price, photo_path  FROM articles WHERE title like '%$str%' ")->fetchALL();
-            if ($_GET['search']) {
-        ?>
-                <?php foreach ($requests as $request) : ?>
-                    <div class="card" style="width: 18rem;">
-                    <a href="product_page.php?id=<?php echo $request['id'] ?>"> <img src="<?= '../' . $infos['photo_path'] ?>" class="card-img-top" alt="..."> </a>
+    <section class="section1 d-flex">
+        <div class="allCards m-5 d-flex justify-content-center" style=" flex-wrap: wrap; width:90%;">
+            <?php
+            if (isset($_GET['submit'])) {
+                $str = $_GET['search'];
+                $requests = $bdd->query("SELECT title, price, photo_path  FROM articles WHERE title like '%$str%' ")->fetchALL();
+                if ($_GET['search']) {
+            ?>
+                    <?php foreach ($requests as $request) : ?>
+                        <div class=" card mx-3 " style="width: 18rem; ">
+                            <a href="product_page.php?id=<?php echo $request['id'] ?>"> <img src="<?= '../' . $infos['photo_path'] ?>" class="card-img-top" alt="..."> </a>
+                            <div class="card-body">
+                                <h5 class="card-title"> <?php echo $request['title'] ?></h5>
+                                <h5 class="card-price"> <?php echo $request['price'] ?>$</h5>
+                                <a href="#" class="btn btn-primary"> Add to cart </a>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php } ?>
+            <?php } else { ?>
+                <?php foreach ($allProducts as $infos) :
+                ?>
+                    <div class="card m-3" style="width: 18rem;">
+                        <a href="product_page.php?id=<?php echo $infos['id'] ?>"> <img src="<?= '../' . $infos['photo_path'] ?>" class="card-img-top" alt="..."> </a>
                         <div class="card-body">
-                            <h5 class="card-title"> <?php echo $request['title'] ?></h5>
-                            <h5 class="card-price"> <?php echo $request['price'] ?></h5>
+                            <h5 class="card-title"> <?php echo $infos['title'] ?></h5>
+                            <h5 class="card-price"> <?php echo $infos['price'] ?>$</h5>
                             <a href="#" class="btn btn-primary"> Add to cart </a>
                         </div>
                     </div>
                 <?php endforeach; ?>
             <?php } ?>
-        <?php } else { ?>
-            <?php foreach ($allProducts as $infos) :
-            ?>
-                <div class="card" style="width: 18rem;">
-                    <a href="product_page.php?id=<?php echo $infos['id'] ?>"> <img src="<?= '../' . $infos['photo_path'] ?>" class="card-img-top" alt="..."> </a>
-                    <div class="card-body">
-                        <h5 class="card-title"> <?php echo $infos['title'] ?></h5>
-                        <h5 class="card-price"> <?php echo $infos['price'] ?></h5>
-                        <a href="#" class="btn btn-primary"> Add to cart </a>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        <?php } ?>
-
-
+        </div>
+        <!-- /.allCards -->
     </section>
 
+    <?php require_once SITE_ROOT . 'src/partials/footer_reviews.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
