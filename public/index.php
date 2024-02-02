@@ -70,12 +70,12 @@ $num;
             <?php
             if (isset($_GET['submit'])) {
                 $str = $_GET['search'];
-                $requests = $bdd->query("SELECT title, price, photo_path  FROM articles WHERE title like '%$str%' ")->fetchALL();
+                $requests = $bdd->query("SELECT `id`, title, price, photo_path  FROM articles WHERE title like '%$str%' ")->fetchALL();
                 if ($_GET['search']) {
             ?>
                     <?php foreach ($requests as $request) : ?>
                         <div class=" card mx-3 " style="width: 18rem; ">
-                            <a href="product_page.php?id=<?php echo $request['id'] ?>"> <img src="<?= '../' . $infos['photo_path'] ?>" class="card-img-top" alt="..."> </a>
+                        <a href="product_page.php?id=<?php echo $request['id'] ?>"> <img src="<?= '../' . $request['photo_path'] ?>" class="card-img-top" alt="..."> </a>
                             <div class="card-body">
                                 <h5 class="card-title"> <?php echo $request['title'] ?></h5>
                                 <h5 class="card-price"> <?php echo $request['price'] ?>$</h5>

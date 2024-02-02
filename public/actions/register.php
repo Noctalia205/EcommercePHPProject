@@ -2,7 +2,7 @@
 require_once __DIR__ . '../../../src/init.php';
 require_once __DIR__ . '../../../src/db.php';
 // $pdo est dispo !
-dataconnect();
+
 if (empty($_POST['mail'])) {
     // error
     $_SESSION['error_message'] = 'Champs email vide.';
@@ -48,5 +48,7 @@ $st2->execute([$_POST['first-name'], $_POST['last-name'], $_POST['mail'], $passw
 
 // recup id utilisateur
 $_SESSION['user_id'] = $bdd->lastInsertId(); // connecté pour plus tard
+$_SESSION['cart_contents'] = array();
+
 
 header('Location: ../index.php'); // $_GET['success'] 

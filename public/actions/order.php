@@ -11,6 +11,14 @@ $pdoStatement = $bdd->prepare("INSERT INTO orders (customer_id, articles_quantit
                                ('$userId', $quantity, '$totalPrice', '$address', 'Nouvelle');");
     $pdoStatement->execute([]);
 
+$articleId = 0;
+for ($i = 0; $i < count($_SESSION['cart_contents']); $i++) {
+    $articleId = $_SESSION['cart_contents'][$i]["id"];
+    $pdoStatement = $bdd->prepare("UPDATE articles SET stock = stock - 1
+                                    WHERE id = $articleId;");
+    $pdoStatement->execute([]);
+}
+
 $_SESSION['cart-contents'] = array();
 
 header('Location: ../../src/class/user/orders_history.php');

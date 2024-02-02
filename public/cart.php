@@ -1,8 +1,6 @@
 <?php require_once __DIR__ . '/../src/db.php';
 require_once __DIR__ . '/../src/init.php';
 
-//$_SESSION['cart_contents'] = [];
-
 $id_article = $_GET['id'];
 $pdoStatement = $bdd->prepare("SELECT * FROM articles WHERE `id` = $id_article;");
 $pdoStatement->execute();
@@ -71,7 +69,7 @@ if (!in_array($article_info,$_SESSION['cart_contents'])) {
 						<td><?php echo $infos[1] ?></td>
 						<td><?php echo $infos[3] ?></td>
 						<td> <form method='post' action='../src/class/user/orders.php'> 
-                                <input type="number" name = '<?=$infos[0]?>' min = '1' max='10'>
+                                <input type="number" name = '<?=$infos[0]?>' min = '1' max='<?=$infos[4]?>' required>
                         </td>
 					</tr>
 				<?php endforeach; ?>
