@@ -10,7 +10,6 @@
   <title>Product page</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-
   <link rel="stylesheet" href="assets/bootstrap-5.3.2-dist/css/ratings.css">
 </head>
 
@@ -40,38 +39,34 @@
             </li>
           <?php } ?>
         </ul>
-        <?php var_dump($_GET["id"]) ?>
-        <form action="../src/class/user/cart.php?" method="GET">
-          <input type="submit" name="submit" value=" <?php echo $_GET['id'] ?>" />
-          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-            <!-- 99+ -->
-            <span class="visually-hidden">unread messages</span>
-          </span>
-          </button>
-        </form>
+        <a href="cart.php?id=<?php echo $_GET["id"] ?>">
+          <button type="button" class="btn btn-primary">add to cart</button>
+        </a>
 
 
       </div>
     </div>
   </nav>
   <div class="flex font-serif">
-    <div class="flex-none w-52 relative">
-      <img src="" alt="" class="absolute inset-0 w-full h-full object-cover rounded-lg" loading="lazy" />
-    </div>
-    <form class="flex-auto p-6">
 
+
+    <form class="d-flex my-5 justify-content-center  flex-auto ">
       <?php
       $id = $_GET['id'];
       $pdoStatement = $bdd->prepare("SELECT * FROM articles WHERE id='$id';");
       $pdoStatement->execute();
       $infos = $pdoStatement->fetch()
-      //var_dump($selectedProduct);
       ?>
 
 
       <div class="flex flex-wrap items-baseline">
         <h1 class="w-full flex-none mb-3 text-2xl leading-none text-slate-900">
           <?php echo $infos['title'] ?>
+      $infos = $pdoStatement->fetch();
+      //var_dump($selectedProduct);
+      ?>
+      <div class="mx-4 flex flex-wrap items-baseline">
+        <h1 class="w-full flex-none mb-3 text-2xl leading-none text-slate-900">
           <div class="card" style="width: 25rem;">
             <img src="<?= '../' . $infos['photo_path'] ?>" class="card-img-top" alt="..." style=>
           </div>
@@ -197,6 +192,71 @@
       echo '</div>';
     }
     ?>
+  </div>
+=======
+          <h4 class="text-center"><?= $infos['price'] ?>€ | En stock: <?= $infos['stock'] ?> </h4>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h3> <?php echo $infos['title'] ?>
+          </h3>
+        </div>
+        <div class="card-body">
+          <blockquote class="blockquote mb-0">
+            <p> <?= $infos['description'] ?></p>
+          </blockquote>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="container"></div>
+  <span id="rateMe3" class="rating-faces"></span>
+  </div>
+  <div class="card">
+    <div class="row">
+      <div class="col-2">
+        <img src="https://i.imgur.com/xELPaag.jpg" width="70" class="rounded-circle mt-2">
+      </div>
+      <div class="col-10">
+        <div class="comment-box ml-2">
+          <h4>Commentaire</h4>
+          <div class="rating">
+            <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+            <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+            <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+            <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+            <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+          </div>
+          <div class="comment-area">
+            <textarea class="form-control" placeholder="what is your view?" rows="4"></textarea>
+          </div>
+          <div class="comment-btns mt-2">
+            <div class="row">
+              <div class="col-6">
+                <div class="pull-left">
+                  <button class="btn btn-success btn-sm">Cancel</button>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="pull-right">
+                  <button class="btn btn-success send btn-sm">Send <i class="fa fa-long-arrow-right ml-1"></i></button>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+
+    </div>
+
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
