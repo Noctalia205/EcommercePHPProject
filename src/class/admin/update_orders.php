@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php require_once __DIR__ . '/../..//init.php'; ?>
+<?php require_once __DIR__ . '/../../init.php'; ?>
 <?php require_once SITE_ROOT . 'src/partials/head_css.php'; 
 ?>
 
@@ -55,9 +55,10 @@
 
     <form method='post' action='../../../public/actions/edit_order.php?a=<?=$_GET['a']?>'>
         <select name='status'>
-            <option value="preparing"> En cours de préparation </option>
-            <option value="sent"> En transit </option>
-            <option value="delivered"> Livré </option>
+            <option value="Nouvelle"> Nouvelle </option>
+            <option value="Envoyée"> Envoyée </option>
+            <option value="Finie"> Finie </option>
+            <option value="Retour client"> Retour client </option>
         </select>
       <input type="submit" id="submit" name="submit" value='submit'>
     </form>
