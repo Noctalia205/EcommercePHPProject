@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           exit;
         }
     } else {
-      header ('Location: ../src/class/admin/log_articles.php');
+      header ('Location: ../../src/class/admin/log_articles.php');
     }
 }
 
