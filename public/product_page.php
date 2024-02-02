@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php require_once __DIR__ . '/../src/init.php'; ?>
+<?php require_once __DIR__ . '/../src/db.php'; ?>
 <?php require_once SITE_ROOT . 'src/partials/head_css.php'; ?>
 
 <head>
@@ -38,7 +39,6 @@
             </li>
           <?php } ?>
         </ul>
-
         <a href="cart.php?id=<?php echo $_GET["id"] ?>">
           <button type="button" class="btn btn-primary">add to cart</button>
         </a>
@@ -49,11 +49,19 @@
   </nav>
   <div class="flex font-serif">
 
+
     <form class="d-flex my-5 justify-content-center  flex-auto ">
       <?php
       $id = $_GET['id'];
       $pdoStatement = $bdd->prepare("SELECT * FROM articles WHERE id='$id';");
       $pdoStatement->execute();
+      $infos = $pdoStatement->fetch()
+      ?>
+
+
+      <div class="flex flex-wrap items-baseline">
+        <h1 class="w-full flex-none mb-3 text-2xl leading-none text-slate-900">
+          <?php echo $infos['title'] ?>
       $infos = $pdoStatement->fetch();
       //var_dump($selectedProduct);
       ?>
@@ -64,6 +72,128 @@
           </div>
         </h1>
         <div class="flex-auto text-lg font-medium text-slate-500">
+          <H3><?php echo $infos['price'] ?> €</H3>
+        </div>
+        <div class="text-xs leading-6 font-medium uppercase text-slate-500">
+          <h4><?php echo $infos['stock'] ?> En Stock</h4>
+        </div>
+      </div>
+      <div class="flex items-baseline mt-4 mb-6 pb-6 border-b border-slate-200">
+        <div class="space-x-1 flex text-sm font-medium">
+        </div>
+      </div>
+      <div class="flex space-x-4 mb-5 text-sm font-medium">
+        <div class="flex-auto flex space-x-4 pr-4">
+          <button class="flex-none w-1/2 h-12 uppercase font-medium tracking-wider border border-slate-200 text-slate-900" type="button">
+            Add to cart
+          </button>
+        </div>
+        </button>
+      </div>
+    </form>
+  </div>
+
+
+
+
+
+  <div class="container"></div>
+  <span id="rateMe3" class="rating-faces"></span>
+  </div>
+  <div>
+
+    <div class="card">
+      <div class="card-header">
+        <h>Description</h>
+      </div>
+      <div class="card-body">
+        <blockquote class="blockquote mb-0">
+          <p> <?= $infos['description'] ?></p>
+          <footer class="blockquote-footer">Someone famous in <cite title="Source Title">The Coding Factory</cite></footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <form method="post">
+      <div class="row">
+        <div class="col-2">
+          <img src="https://i.imgur.com/xELPaag.jpg" width="70" class="rounded-circle mt-2">
+        </div>
+        <div class="col-10">
+          <div class="comment-box ml-2">
+            <h4>Commentaire</h4>
+            <div class="rating">
+              <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+              <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+              <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+              <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+              <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+            </div>
+            <div class="comment-area">
+              <textarea class="form-control" name="comment" placeholder="Quel est votre avis?" rows="4"></textarea>
+            </div>
+            <div class="comment-btns mt-2">
+              <div class="row">
+                <div class="col-6">
+                  <div class="pull-left">
+                    <button class="btn btn-success btn-sm" type="button" onclick="resetForm()">Annuler</button>
+                    <script>
+                      function resetForm() {
+                        // Réinitialisez les champs de note et de message
+                        document.getElementsByName('rating').forEach(radio => radio.checked = false);
+                        document.getElementsByName('comment')[0].value = '';
+                      }
+                    </script>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="pull-right">
+                    <input class="btn btn-success send btn-sm" type="submit" name="submit" value="Envoyer">
+                    <i class="fa fa-long-arrow-right ml-1"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <?php
+
+
+    if (isset($_SESSION['id']) && isset($_POST['submit'])) {
+      $userId = $_SESSION['id'];
+      $userTitle = $infos['title'];
+
+      $objectId = $id;
+      $comments = $_POST['comment'];
+      $ratings = $_POST['rating'];
+
+      $pdoStatement2 = $pdo->prepare('INSERT INTO reviews(title, description, number_stars, author_id, reviewed_article_id) VALUES(?, ?, ?, ?, ?)');
+      $pdoStatement2->execute([$userTitle, $comments, $ratings, $userId, $objectId]);
+    }
+    ?>
+
+  </div>
+  <div class="comments-container">
+    <?php
+    $pdoStatement3 = $pdo->prepare("SELECT * FROM reviews WHERE reviewed_article_id='$id';");
+    $pdoStatement3->execute();
+    $commentsList = $pdoStatement3->fetchAll();
+
+    foreach ($commentsList as $comment) {
+      echo '<div class="comment">';
+      echo '<h5>' . $comment['title'] . '</h5>';
+      echo '<p>' . $comment['description'] . '</p>';
+      echo '<p>Rating: ' . $comment['number_stars'] . '</p>';
+      echo '</div>';
+    }
+    ?>
+  </div>
+=======
           <h4 class="text-center"><?= $infos['price'] ?>€ | En stock: <?= $infos['stock'] ?> </h4>
         </div>
       </div>
@@ -133,6 +263,25 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 
 </body>
+<style>
+  .comments-container {
+    margin-top: 20px;
+  }
+
+  .comment {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .comment h5 {
+    color: #333;
+  }
+
+  .comment p {
+    margin: 5px 0;
+  }
+</style>
 <!-- rating.js file -->
 
 </html>
