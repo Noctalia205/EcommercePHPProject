@@ -2,7 +2,7 @@
 
 try
 {
- $bdd = new PDO("mysql:host=localhost;dbname=ECOMMERCE", "root", "root");
+ $bdd = new PDO("mysql:host=localhost;dbname=ECOMMERCE", "root", "");
  $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
 catch(Exception $e)

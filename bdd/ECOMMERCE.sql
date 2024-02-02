@@ -89,13 +89,13 @@ CREATE TABLE `ordered_articles` (
 
 CREATE TABLE `orders` (
   `id` int(10) UNSIGNED NOT NULL,
+  `status` varchar(40) NOT NULL,
   `customer_id` int(10) UNSIGNED NOT NULL,
   `articles_quantity` int(3) NOT NULL,
   `purchase_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `total_price` float NOT NULL,
   `address` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 --
 -- Dumping data for table `orders`
 --
