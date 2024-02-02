@@ -64,7 +64,7 @@
       $id = $_GET['id'];
       $pdoStatement = $bdd->prepare("SELECT * FROM articles WHERE id='$id';");
       $pdoStatement->execute();
-      $infos = $pdoStatement->fetch();
+      $infos = $pdoStatement->fetch()
       //var_dump($selectedProduct);
       ?>
 
@@ -123,21 +123,12 @@
   <div class="card">
     <form method="post">
       <div class="row">
-
         <div class="col-2">
-
-
           <img src="https://i.imgur.com/xELPaag.jpg" width="70" class="rounded-circle mt-2">
-
-
         </div>
-
         <div class="col-10">
-
           <div class="comment-box ml-2">
-
-            <h4>commentair</h4>
-
+            <h4>Commentaire</h4>
             <div class="rating">
               <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
               <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
@@ -145,63 +136,65 @@
               <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
               <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
             </div>
-
             <div class="comment-area">
-
-              <textarea class="form-control" name="comment" placeholder="what is your view?" rows="4"></textarea>
-
+              <textarea class="form-control" name="comment" placeholder="Quel est votre avis?" rows="4"></textarea>
             </div>
-
             <div class="comment-btns mt-2">
-
               <div class="row">
-
                 <div class="col-6">
-
                   <div class="pull-left">
-
-                    <button class="btn btn-success btn-sm">Cancel</button>
-
+                    <button class="btn btn-success btn-sm" type="button" onclick="resetForm()">Annuler</button>
+                    <script>
+                      function resetForm() {
+                        // Réinitialisez les champs de note et de message
+                        document.getElementsByName('rating').forEach(radio => radio.checked = false);
+                        document.getElementsByName('comment')[0].value = '';
+                      }
+                    </script>
                   </div>
-
                 </div>
-
                 <div class="col-6">
-
                   <div class="pull-right">
-
-                    <input class="btn btn-success send btn-sm" type="submit">Send <i class="fa fa-long-arrow-right ml-1"></i></input>
-
+                    <input class="btn btn-success send btn-sm" type="submit" name="submit" value="Envoyer">
+                    <i class="fa fa-long-arrow-right ml-1"></i>
                   </div>
-
                 </div>
-
               </div>
-
             </div>
-
-
           </div>
-
         </div>
-
-
       </div>
     </form>
+
     <?php
-    if (isset($_SESSION)) {
-      if (isset($_POST['submit'])) {
 
-        $userId = $_SESSION['id'];
-        $userTitle = $infos['title'];
 
-        $objectId = $id;
-        $comments = $_POST['comment'];
-        $ratings = $_POST['rating'];
+    if (isset($_SESSION['id']) && isset($_POST['submit'])) {
+      $userId = $_SESSION['id'];
+      $userTitle = $infos['title'];
 
-        $pdoStatement2 = $pdo->prepare('INSERT INTO reviews(title,description,number_stars,author_id,reviewed_article_id) VALUES(?, ?, ?, ?, ?)');
-        $pdoStatement2->execute([$userTitle, $comments, $ratings, $userId, $objectId]);
-      }
+      $objectId = $id;
+      $comments = $_POST['comment'];
+      $ratings = $_POST['rating'];
+
+      $pdoStatement2 = $pdo->prepare('INSERT INTO reviews(title, description, number_stars, author_id, reviewed_article_id) VALUES(?, ?, ?, ?, ?)');
+      $pdoStatement2->execute([$userTitle, $comments, $ratings, $userId, $objectId]);
+    }
+    ?>
+
+  </div>
+  <div class="comments-container">
+    <?php
+    $pdoStatement3 = $pdo->prepare("SELECT * FROM reviews WHERE reviewed_article_id='$id';");
+    $pdoStatement3->execute();
+    $commentsList = $pdoStatement3->fetchAll();
+
+    foreach ($commentsList as $comment) {
+      echo '<div class="comment">';
+      echo '<h5>' . $comment['title'] . '</h5>';
+      echo '<p>' . $comment['description'] . '</p>';
+      echo '<p>Rating: ' . $comment['number_stars'] . '</p>';
+      echo '</div>';
     }
     ?>
   </div>
@@ -210,6 +203,25 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 
 </body>
+<style>
+  .comments-container {
+    margin-top: 20px;
+  }
+
+  .comment {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .comment h5 {
+    color: #333;
+  }
+
+  .comment p {
+    margin: 5px 0;
+  }
+</style>
 <!-- rating.js file -->
 
 </html>
